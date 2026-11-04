@@ -1,113 +1,148 @@
-(() => {
-  const pages = ["overview","console","players","properties","plugins","worlds","settings","activity"];
-  const crumb = document.getElementById("crumb");
-  const sidebar = document.getElementById("sidebar");
-  const overlay = document.getElementById("mobileOverlay");
-  const toast = document.getElementById("toast");
-  let toastTimer;
+// =====================================
+// ARJUN SMP — PHASE 2 AUTHENTICATION
+// =====================================
 
-  function notify(message) {
-    toast.textContent = message;
-    toast.classList.add("show");
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toast.classList.remove("show"), 3000);
+// 1. Paste your Supabase project URL.
+const SUPABASE_URL = "PASTE_YOUR_SUPABASE_PROJECT_URL";
+
+// 2. Paste your Supabase anon / publishable key.
+// NEVER paste your service_role key here.
+const SUPABASE_ANON_KEY = "PASTE_YOUR_SUPABASE_ANON_KEY";
+
+// 3. The email of the admin account you create in Supabase Auth.
+const ADMIN_EMAIL = "YOUR_ADMIN_EMAIL";
+
+// =====================================
+
+const client = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
+
+const loginScreen = document.getElementById("loginScreen");
+const dashboardScreen = document.getElementById("dashboardScreen");
+const loginForm = document.getElementById("loginForm");
+const loginButton = document.getElementById("loginButton");
+const loginMessage = document.getElementById("loginMessage");
+const adminName = document.getElementById("adminName");
+
+function showLogin(message = "") {
+  loginScreen.classList.remove("hidden");
+  dashboardScreen.classList.add("hidden");
+  loginMessage.textContent = message;
+}
+
+function showDashboard(username) {
+  loginScreen.classList.add("hidden");
+  dashboardScreen.classList.remove("hidden");
+  adminName.textContent = username;
+}
+
+function configurationIsValid() {
+  return (
+    SUPABASE_URL.startsWith("https://") &&
+    !SUPABASE_URL.includes("PASTE_") &&
+    SUPABASE_ANON_KEY.length > 20 &&
+    !SUPABASE_ANON_KEY.includes("PASTE_") &&
+    ADMIN_EMAIL.includes("@") &&
+    !ADMIN_EMAIL.includes("YOUR_")
+  );
+}
+
+// Check that the signed-in account is in the admin allowlist.
+async function verifyAdmin(user) {
+  const { data, error } = await client
+    .from("admin_users")
+    .select("username")
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+  if (error || !data) {
+    await client.auth.signOut();
+    throw new Error("This account is not authorized as an admin.");
   }
 
-  function openPage(name) {
-    if (!pages.includes(name)) return;
-    pages.forEach(page => {
-      document.getElementById(`page-${page}`).classList.toggle("active", page === name);
-    });
-    document.querySelectorAll("[data-page]").forEach(button => {
-      button.classList.toggle("active", button.dataset.page === name);
-    });
-    crumb.textContent = name.charAt(0).toUpperCase() + name.slice(1);
-    sidebar.classList.remove("open");
-    overlay.classList.remove("show");
-    window.scrollTo({top:0, behavior:"smooth"});
+  return data.username;
+}
+
+// Login form.
+loginForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  if (!configurationIsValid()) {
+    showLogin("Set your Supabase URL, anon key and admin email in app.js first.");
+    return;
   }
 
-  document.querySelectorAll("[data-page]").forEach(button => {
-    button.addEventListener("click", event => {
-      event.preventDefault();
-      openPage(button.dataset.page);
-    });
-  });
-  document.querySelectorAll("[data-go]").forEach(button => {
-    button.addEventListener("click", () => openPage(button.dataset.go));
-  });
+  const enteredUsername = document
+    .getElementById("username")
+    .value.trim()
+    .toLowerCase();
 
-  document.getElementById("mobileMenu").addEventListener("click", () => {
-    sidebar.classList.add("open");
-    overlay.classList.add("show");
-  });
-  overlay.addEventListener("click", () => {
-    sidebar.classList.remove("open");
-    overlay.classList.remove("show");
-  });
+  const password = document.getElementById("password").value;
 
-  document.querySelectorAll("[data-action]").forEach(button => {
-    button.addEventListener("click", () => {
-      const action = button.dataset.action;
-      const messages = {
-        start: "Server start will be enabled after the secure phone agent is connected (Phase 3).",
-        stop: "Server stop will be enabled after the secure phone agent is connected (Phase 3).",
-        restart: "Server restart will be enabled after the secure phone agent is connected (Phase 3).",
-        connect: "This action will be connected to your phone agent in a later phase."
-      };
-      notify(messages[action] || "This feature is planned for a later phase.");
-    });
-  });
-
-  document.getElementById("refreshButton").addEventListener("click", () => {
-    notify("Preview refreshed. Live server data is not connected yet.");
-  });
-  document.getElementById("helpButton").addEventListener("click", () => {
-    notify("ARJUN SMP Phase 1: frontend preview. Authentication and server agent are next.");
-  });
-  document.getElementById("dismissNotice").addEventListener("click", () => {
-    document.querySelector(".page.active .notice")?.remove();
-  });
-
-  const propertyIds = ["motd","maxPlayers","viewDistance","simulationDistance","gamemode","difficulty","whitelist","pvp"];
-  const defaults = {
-    motd:"ARJUN SMP", maxPlayers:"5", viewDistance:"4", simulationDistance:"3",
-    gamemode:"survival", difficulty:"normal", whitelist:"true", pvp:"true"
-  };
-  function loadProperties() {
-    let saved = {};
-    try { saved = JSON.parse(localStorage.getItem("arjunSmpPreviewProperties") || "{}"); } catch (_) {}
-    propertyIds.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.value = saved[id] ?? defaults[id];
-    });
+  if (!enteredUsername || !password) {
+    showLogin("Enter your username and password.");
+    return;
   }
-  document.getElementById("saveProperties").addEventListener("click", () => {
-    const values = {};
-    propertyIds.forEach(id => {
-      const el = document.getElementById(id);
-      values[id] = el.value;
+
+  loginButton.disabled = true;
+  loginButton.textContent = "CHECKING...";
+  loginMessage.textContent = "Connecting securely...";
+
+  try {
+    const { data, error } = await client.auth.signInWithPassword({
+      email: ADMIN_EMAIL,
+      password: password
     });
-    const max = Number(values.maxPlayers);
-    if (!Number.isInteger(max) || max < 1 || max > 20) {
-      notify("For this phone-hosted preview, choose a player limit from 1 to 20.");
+
+    if (error) throw error;
+
+    const verifiedUsername = await verifyAdmin(data.user);
+
+    if (verifiedUsername.toLowerCase() !== enteredUsername) {
+      await client.auth.signOut();
+      throw new Error("Incorrect admin username.");
+    }
+
+    showDashboard(verifiedUsername);
+  } catch (error) {
+    showLogin(error.message || "Login failed. Check your details.");
+  } finally {
+    loginButton.disabled = false;
+    loginButton.textContent = "▶ LOGIN TO PANEL";
+  }
+});
+
+// Restore an existing login after refreshing the page.
+async function restoreSession() {
+  if (!configurationIsValid()) {
+    showLogin("Configure Supabase in app.js to activate login.");
+    return;
+  }
+
+  try {
+    const { data, error } = await client.auth.getSession();
+
+    if (error) throw error;
+
+    if (!data.session) {
+      showLogin();
       return;
     }
-    localStorage.setItem("arjunSmpPreviewProperties", JSON.stringify(values));
-    notify("Saved in this browser only. Your phone's server.properties is unchanged.");
-  });
-  loadProperties();
 
-  document.getElementById("commandForm").addEventListener("submit", event => {
-    event.preventDefault();
-    const input = document.getElementById("commandInput");
-    if (input.value.trim()) {
-      notify("Console is preview-only. No command was sent to your Minecraft server.");
-      input.value = "";
-    }
-  });
-  document.getElementById("clearConsole").addEventListener("click", () => {
-    document.getElementById("terminal").innerHTML =
-      '<div class="terminal-line muted">Console view cleared. Agent is not connected.</div>';
-  });
-})();
+    const username = await verifyAdmin(data.session.user);
+    showDashboard(username);
+  } catch (error) {
+    showLogin(error.message || "Please sign in again.");
+  }
+}
+
+// Logout.
+document.getElementById("logoutButton").addEventListener("click", async () => {
+  await client.auth.signOut();
+  document.getElementById("password").value = "";
+  showLogin("You have been logged out.");
+});
+
+restoreSession();
