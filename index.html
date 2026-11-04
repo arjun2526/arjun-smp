@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080808">
+  <meta name="description" content="ARJUN SMP server control panel preview">
+  <title>ARJUN SMP — Control Panel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" data-page="overview" aria-label="ARJUN SMP home">
+        <span class="brand-mark">A<span>/</span></span>
+        <span class="brand-copy"><strong>ARJUN SMP</strong><small>SERVER CONTROL</small></span>
+      </a>
+
+      <div class="server-chip">
+        <span class="status-dot offline"></span>
+        <span><b>My Minecraft Server</b><small>PHONE HOST · PREVIEW</small></span>
+        <span class="chip-chevron">⌄</span>
+      </div>
+
+      <div class="nav-label">MANAGEMENT</div>
+      <nav class="nav-list" aria-label="Main navigation">
+        <button class="nav-item active" data-page="overview"><span class="nav-icon">▦</span> Overview</button>
+        <button class="nav-item" data-page="console"><span class="nav-icon">⌘</span> Console <span class="nav-tag">UI</span></button>
+        <button class="nav-item" data-page="players"><span class="nav-icon">♙</span> Players</button>
+        <button class="nav-item" data-page="properties"><span class="nav-icon">⚙</span> Properties</button>
+        <button class="nav-item" data-page="plugins"><span class="nav-icon">▧</span> Plugins</button>
+        <button class="nav-item" data-page="worlds"><span class="nav-icon">◇</span> Worlds</button>
+      </nav>
+
+      <div class="nav-label system-label">SYSTEM</div>
+      <nav class="nav-list">
+        <button class="nav-item" data-page="settings"><span class="nav-icon">☷</span> Settings</button>
+        <button class="nav-item" data-page="activity"><span class="nav-icon">◷</span> Activity log</button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="preview-note"><span class="preview-icon">!</span><span><b>Preview mode</b><small>Server agent not connected</small></span></div>
+        <div class="profile">
+          <div class="avatar">AK</div>
+          <div class="profile-text"><b>Server Admin</b><small>Admin authentication · Phase 2</small></div>
+          <button class="more-button" aria-label="Profile options">···</button>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" aria-label="Open menu">☰</button>
+        <div class="breadcrumbs"><span>ARJUN SMP</span><i>/</i><b id="crumb">Overview</b></div>
+        <div class="top-actions">
+          <span class="preview-pill"><span class="tiny-dot"></span> FRONTEND PREVIEW</span>
+          <button class="icon-button" id="helpButton" aria-label="Help">?</button>
+          <div class="top-avatar">AK</div>
+        </div>
+      </header>
+
+      <div class="content">
+        <section class="page active" id="page-overview">
+          <div class="page-heading">
+            <div><div class="eyebrow">CONTROL CENTRE / 001</div><h1>Overview<span class="heading-period">.</span></h1><p class="subheading">Your world, one control panel.</p></div>
+            <div class="heading-actions"><button class="button button-ghost" id="refreshButton">↻ <span>Refresh</span></button><button class="button button-primary" data-go="settings">Server settings <span>↗</span></button></div>
+          </div>
+
+          <div class="notice"><span class="notice-symbol">i</span><div><b>Frontend preview is active.</b><span>These are sample values. Start, stop, console and configuration actions will work after the secure phone agent is connected.</span></div><button class="notice-close" aria-label="Dismiss notice" id="dismissNotice">×</button></div>
+
+          <div class="stats-grid">
+            <article class="stat-card"><div class="stat-top"><span>SERVER STATUS</span><span class="stat-symbol">◉</span></div><div class="stat-value status-value"><span class="status-dot offline"></span> Offline</div><div class="stat-foot">Waiting for phone agent</div></article>
+            <article class="stat-card"><div class="stat-top"><span>PLAYERS ONLINE</span><span class="stat-symbol">♙</span></div><div class="stat-value">— <small>/ 20</small></div><div class="stat-foot">Live data not connected</div></article>
+            <article class="stat-card"><div class="stat-top"><span>MEMORY ALLOCATION</span><span class="stat-symbol">▤</span></div><div class="stat-value">2 <small>GB</small></div><div class="stat-foot">Configured launch target</div></article>
+            <article class="stat-card"><div class="stat-top"><span>UPTIME</span><span class="stat-symbol">◷</span></div><div class="stat-value">—</div><div class="stat-foot">Available after agent connects</div></article>
+          </div>
+
+          <div class="control-grid">
+            <section class="panel server-panel">
+              <div class="panel-heading"><div><div class="eyebrow">SERVER CONTROL</div><h2>Power management</h2></div><span class="panel-kicker">01 / 04</span></div>
+              <div class="power-status"><div class="power-icon">Ⅱ</div><div><b>Server is offline</b><small>Your OPPO server agent is not connected to this panel.</small></div></div>
+              <div class="power-buttons"><button class="button button-start" data-action="start">▶ Start</button><button class="button button-stop" data-action="stop">■ Stop</button><button class="button button-restart" data-action="restart">↻ Restart</button></div>
+              <div class="panel-foot">Controls are preview-only until Phase 3.</div>
+            </section>
+            <section class="panel address-panel">
+              <div class="panel-heading"><div><div class="eyebrow">CONNECTION</div><h2>Server address</h2></div><span class="panel-kicker">02 / 04</span></div>
+              <div class="address-placeholder">Not configured <span>—</span></div>
+              <div class="address-meta"><span class="status-dot offline"></span> Public address not connected</div>
+              <button class="button button-ghost full-button" data-go="settings">Configure connection <span>↗</span></button>
+            </section>
+          </div>
+
+          <div class="lower-grid">
+            <section class="panel">
+              <div class="panel-heading"><div><div class="eyebrow">RECENT EVENTS</div><h2>Activity</h2></div><button class="text-button" data-go="activity">View all ↗</button></div>
+              <div class="empty-state"><div class="empty-icon">◷</div><b>No activity yet</b><span>Server events will appear here when the agent connects.</span></div>
+            </section>
+            <section class="panel">
+              <div class="panel-heading"><div><div class="eyebrow">QUICK ACCESS</div><h2>Tools</h2></div><span class="panel-kicker">03 / 04</span></div>
+              <div class="quick-links">
+                <button data-go="properties"><span>⚙</span><b>Server properties</b><i>↗</i></button>
+                <button data-go="plugins"><span>▧</span><b>Plugin manager</b><i>↗</i></button>
+                <button data-go="players"><span>♙</span><b>Player management</b><i>↗</i></button>
+              </div>
+            </section>
+          </div>
+          <div class="page-foot"><span>ARJUN SMP CONTROL PANEL</span><span>BUILD 0.1.0 · PHASE 1</span></div>
+        </section>
+
+        <section class="page" id="page-console">
+          <div class="page-heading"><div><div class="eyebrow">MANAGEMENT / 002</div><h1>Console<span class="heading-period">.</span></h1><p class="subheading">View server output and send commands.</p></div><span class="preview-pill">PREVIEW ONLY</span></div>
+          <section class="panel console-panel">
+            <div class="console-toolbar"><div><span class="status-dot offline"></span><b>SERVER CONSOLE</b><small>NOT CONNECTED</small></div><button class="button button-ghost" id="clearConsole">Clear view</button></div>
+            <div class="terminal" id="terminal"><div class="terminal-line muted">ARJUN SMP // CONSOLE PREVIEW</div><div class="terminal-line muted">────────────────────────────────────────</div><div class="terminal-line"><span class="terminal-time">[SYSTEM]</span> Frontend preview initialized.</div><div class="terminal-line"><span class="terminal-time">[INFO]</span> Waiting for secure phone agent connection.</div><div class="terminal-line warn"><span class="terminal-time">[NOTICE]</span> Commands are disabled in Phase 1.</div><div class="terminal-cursor">_</div></div>
+            <form class="command-form" id="commandForm"><span>›</span><input id="commandInput" placeholder="Console commands will be available after agent setup..." autocomplete="off"><button class="button button-primary" type="submit">Send ↗</button></form>
+            <p class="field-hint">This preview does not send commands to Minecraft. Never paste passwords, tokens or private keys here.</p>
+          </section>
+        </section>
+
+        <section class="page" id="page-players">
+          <div class="page-heading"><div><div class="eyebrow">MANAGEMENT / 003</div><h1>Players<span class="heading-period">.</span></h1><p class="subheading">Manage access to your Minecraft world.</p></div><button class="button button-primary" data-action="connect">＋ Add player</button></div>
+          <div class="notice"><span class="notice-symbol">i</span><div><b>Player data is not connected.</b><span>Online players, whitelist and moderation actions will be loaded from your server in Phase 3.</span></div></div>
+          <section class="panel"><div class="panel-heading"><div><div class="eyebrow">PLAYER DIRECTORY</div><h2>All players</h2></div><span class="panel-kicker">0 PLAYERS</span></div><div class="empty-state large"><div class="empty-icon">♙</div><b>No player data yet</b><span>When the server agent connects, your player list will appear here.</span></div></section>
+        </section>
+
+        <section class="page" id="page-properties">
+          <div class="page-heading"><div><div class="eyebrow">CONFIGURATION / 004</div><h1>Properties<span class="heading-period">.</span></h1><p class="subheading">Edit your server configuration preview.</p></div><button class="button button-primary" id="saveProperties">Save preview ↗</button></div>
+          <div class="notice"><span class="notice-symbol">!</span><div><b>Local preview only.</b><span>Saving here stores settings in this browser only. It does not modify server.properties on your phone yet.</span></div></div>
+          <section class="panel settings-panel">
+            <div class="panel-heading"><div><div class="eyebrow">BASIC CONFIGURATION</div><h2>Gameplay settings</h2></div><span class="panel-kicker">SERVER.PROPERTIES</span></div>
+            <div class="form-grid">
+              <label class="field"><span>Server name / MOTD</span><input id="motd" value="ARJUN SMP"></label>
+              <label class="field"><span>Maximum players</span><input id="maxPlayers" type="number" min="1" max="20" value="5"></label>
+              <label class="field"><span>View distance</span><select id="viewDistance"><option>4</option><option>5</option><option>6</option><option>8</option><option>10</option></select></label>
+              <label class="field"><span>Simulation distance</span><select id="simulationDistance"><option>3</option><option>4</option><option>5</option><option>6</option></select></label>
+              <label class="field"><span>Gamemode</span><select id="gamemode"><option value="survival">Survival</option><option value="creative">Creative</option><option value="adventure">Adventure</option><option value="spectator">Spectator</option></select></label>
+              <label class="field"><span>Difficulty</span><select id="difficulty"><option value="normal">Normal</option><option value="easy">Easy</option><option value="hard">Hard</option><option value="peaceful">Peaceful</option></select></label>
+              <label class="field"><span>Whitelist</span><select id="whitelist"><option value="true">Enabled</option><option value="false">Disabled</option></select></label>
+              <label class="field"><span>PVP</span><select id="pvp"><option value="true">Enabled</option><option value="false">Disabled</option></select></label>
+            </div>
+            <div class="panel-foot">Changes are saved to this browser's local storage for the Phase 1 preview.</div>
+          </section>
+        </section>
+
+        <section class="page" id="page-plugins">
+          <div class="page-heading"><div><div class="eyebrow">EXTENSIONS / 005</div><h1>Plugins<span class="heading-period">.</span></h1><p class="subheading">Your server's plugin collection.</p></div><button class="button button-primary" data-action="connect">＋ Install plugin</button></div>
+          <div class="notice"><span class="notice-symbol">i</span><div><b>Plugin manager preview.</b><span>Plugin installation and removal will be handled by the phone agent after secure connection.</span></div></div>
+          <section class="panel table-panel"><div class="panel-heading"><div><div class="eyebrow">PLUGIN LIBRARY</div><h2>Installed plugins</h2></div><span class="panel-kicker">3 EXPECTED</span></div>
+            <div class="plugin-row"><div class="plugin-icon">G</div><div class="plugin-info"><b>Geyser</b><small>Bedrock ↔ Java crossplay</small></div><span class="tag tag-neutral">UNVERIFIED</span></div>
+            <div class="plugin-row"><div class="plugin-icon">F</div><div class="plugin-info"><b>Floodgate</b><small>Bedrock authentication</small></div><span class="tag tag-neutral">UNVERIFIED</span></div>
+            <div class="plugin-row"><div class="plugin-icon">V</div><div class="plugin-info"><b>ViaVersion</b><small>Java client compatibility</small></div><span class="tag tag-neutral">UNVERIFIED</span></div>
+            <div class="panel-foot">These are expected plugins from your setup report, not live server verification.</div>
+          </section>
+        </section>
+
+        <section class="page" id="page-worlds">
+          <div class="page-heading"><div><div class="eyebrow">DATA / 006</div><h1>Worlds<span class="heading-period">.</span></h1><p class="subheading">World files, backups and restores.</p></div><button class="button button-primary" data-action="connect">＋ Create backup</button></div>
+          <section class="panel"><div class="panel-heading"><div><div class="eyebrow">WORLD STORAGE</div><h2>World manager</h2></div></div><div class="empty-state large"><div class="empty-icon">◇</div><b>No world data connected</b><span>Your world folders and backup history will appear here after the agent is connected.</span></div></section>
+        </section>
+
+        <section class="page" id="page-settings">
+          <div class="page-heading"><div><div class="eyebrow">SYSTEM / 007</div><h1>Settings<span class="heading-period">.</span></h1><p class="subheading">Configure your hosting panel.</p></div></div>
+          <section class="panel settings-panel"><div class="panel-heading"><div><div class="eyebrow">PANEL CONFIGURATION</div><h2>General</h2></div></div>
+            <div class="settings-list"><div><span><b>Panel name</b><small>Displayed throughout the dashboard</small></span><strong>ARJUN SMP</strong></div><div><span><b>Admin authentication</b><small>Username + password via Supabase Auth in Phase 2</small></span><span class="tag tag-neutral">NOT CONNECTED</span></div><div><span><b>Server agent</b><small>Secure outbound phone connection</small></span><span class="tag tag-neutral">OFFLINE</span></div><div><span><b>Hosting target</b><small>OPPO Reno 10 · Android / Termux</small></span><strong>PHONE</strong></div><div><span><b>Frontend version</b><small>Phase 1 static dashboard</small></span><strong>0.1.0</strong></div></div>
+          </section>
+        </section>
+
+        <section class="page" id="page-activity">
+          <div class="page-heading"><div><div class="eyebrow">SYSTEM / 008</div><h1>Activity log<span class="heading-period">.</span></h1><p class="subheading">Track administrative and server events.</p></div></div>
+          <section class="panel"><div class="empty-state large"><div class="empty-icon">◷</div><b>No recorded activity</b><span>Audit events will appear after authentication and agent integration are implemented.</span></div></section>
+        </section>
+        <footer class="global-footer"><span>© 2026 ARJUN SMP</span><span>BUILT FOR YOUR WORLD <b>✳</b></span></footer>
+      </div>
+    </main>
+  </div>
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
