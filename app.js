@@ -52,7 +52,7 @@ function configurationIsValid() {
 // Check that the signed-in account is in the admin allowlist.
 async function verifyAdmin(user) {
   const { data, error } = await client
-    .from("admin_users")
+    .from("arjun_smp_admins")
     .select("username")
     .eq("user_id", user.id)
     .maybeSingle();
