@@ -1,117 +1,139 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ARJUN SMP — Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#171b18">
+  <title>ARJUN SMP | Control Center</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-  <div class="topbar">
+
+  <header class="topbar">
     <div class="brand">
-      <span class="brand-icon">A</span>
+      <div class="logo">A</div>
       <div>
-        <strong>ARJUN SMP</strong>
-        <small>SERVER CONTROL SYSTEM</small>
+        <b>ARJUN SMP</b>
+        <small>SERVER CONTROL CENTER</small>
       </div>
     </div>
-    <span class="version">BETA 0.2</span>
-  </div>
+    <span class="version">V0.3 // PHASE 03</span>
+  </header>
 
   <main>
-    <section id="loginScreen" class="login-panel">
-      <div class="pixel-label">PLAYER 01 // ADMIN ACCESS</div>
-      <h1>WELCOME<br><span>BACK.</span></h1>
-      <p class="muted">Sign in to manage your Minecraft server.</p>
+    <section id="loginScreen" class="login-wrap">
+      <div class="pixel-tag">ADMIN AUTHENTICATION</div>
+      <h1>ENTER THE<br><span>SERVER.</span></h1>
+      <p class="muted">Authorized administrators only.</p>
 
       <form id="loginForm">
-        <label for="username">ADMIN USERNAME</label>
-        <input id="username" type="text" placeholder="Enter username"
-          autocomplete="username" required>
-
-        <label for="password">PASSWORD</label>
-        <input id="password" type="password" placeholder="Enter password"
-          autocomplete="current-password" required>
-
-        <button id="loginButton" type="submit">▶ LOGIN TO PANEL</button>
-        <p id="loginMessage" class="message" role="status"></p>
+        <label>USERNAME</label>
+        <input id="username" autocomplete="username" required placeholder="arjun">
+        <label>PASSWORD</label>
+        <input id="password" type="password" autocomplete="current-password" required placeholder="Your password">
+        <button id="loginButton" class="primary full">▶ LOGIN</button>
+        <p id="loginMessage" class="message"></p>
       </form>
-
-      <div class="login-footer">RESTRICTED AREA · AUTHORIZED ADMIN ONLY</div>
     </section>
 
-    <section id="dashboardScreen" class="dashboard hidden">
-      <div class="welcome-row">
+    <section id="dashboardScreen" class="hidden">
+      <div class="dashboard-heading">
         <div>
-          <div class="pixel-label">ADMIN TERMINAL // ONLINE</div>
-          <h1>CONTROL <span>PANEL.</span></h1>
-          <p class="muted">Welcome, <strong id="adminName">Admin</strong>.</p>
+          <div class="pixel-tag">ADMIN TERMINAL / 001</div>
+          <h1>CONTROL <span>CENTER.</span></h1>
+          <p class="muted">Welcome back, <b id="adminName">Admin</b>.</p>
         </div>
         <button id="logoutButton" class="secondary">LOG OUT ↗</button>
       </div>
 
-      <div class="status-card">
+      <div class="server-card">
         <div>
-          <small>SERVER STATUS</small>
-          <h2><span class="status-dot"></span> NOT CONNECTED</h2>
-          <p class="muted">Phone agent connection will be added in Phase 3.</p>
+          <div class="pixel-tag">YOUR SERVER</div>
+          <h2>ARJUN SMP</h2>
+          <p class="muted">Minecraft Java + Bedrock project</p>
         </div>
-        <div class="status-tag">AUTHENTICATED</div>
+        <div class="server-state">
+          <span id="statusDot" class="dot"></span>
+          <b id="serverStatus">AGENT OFFLINE</b>
+        </div>
       </div>
 
-      <div class="section-heading">
-        <span>ADMIN MODULES</span>
-        <span>01 — 06</span>
+      <div class="stats">
+        <div class="stat-card">
+          <small>PLAYERS ONLINE</small>
+          <strong id="playersOnline">--</strong>
+        </div>
+        <div class="stat-card">
+          <small>PLAYER LIMIT</small>
+          <strong id="playerLimit">20</strong>
+        </div>
+        <div class="stat-card">
+          <small>CONNECTION</small>
+          <strong id="agentStatus">OFFLINE</strong>
+        </div>
       </div>
 
-      <div class="module-grid">
-        <article class="module-card">
-          <span class="module-icon">▣</span>
-          <h3>CONSOLE</h3>
-          <p>View server logs and commands.</p>
-          <span class="coming">PHASE 3</span>
-        </article>
-        <article class="module-card">
-          <span class="module-icon">♟</span>
-          <h3>PLAYERS</h3>
-          <p>View connected players.</p>
-          <span class="coming">PHASE 3</span>
-        </article>
-        <article class="module-card">
-          <span class="module-icon">▤</span>
-          <h3>PROPERTIES</h3>
-          <p>Manage server configuration.</p>
-          <span class="coming">PHASE 3</span>
-        </article>
-        <article class="module-card">
-          <span class="module-icon">✚</span>
-          <h3>PLUGINS</h3>
-          <p>Manage server plugins.</p>
-          <span class="coming">PHASE 3</span>
-        </article>
-        <article class="module-card">
-          <span class="module-icon">▦</span>
-          <h3>WORLDS</h3>
-          <p>Manage server worlds.</p>
-          <span class="coming">PHASE 3</span>
-        </article>
-        <article class="module-card">
-          <span class="module-icon">⚙</span>
-          <h3>SETTINGS</h3>
-          <p>Configure your control panel.</p>
-          <span class="coming">PHASE 3</span>
-        </article>
+      <div class="section-title">
+        <h3>POWER CONTROL</h3>
+        <span>01 / SERVER</span>
+      </div>
+
+      <div class="controls">
+        <button class="power start" data-command="start">▶ START</button>
+        <button class="power stop" data-command="stop">■ STOP</button>
+        <button class="power restart" data-command="restart">↻ RESTART</button>
+        <button class="power save" data-command="save-all">▣ SAVE WORLD</button>
+      </div>
+
+      <div class="section-title">
+        <h3>COMMAND QUEUE</h3>
+        <button id="refreshButton" class="tiny-button">↻ REFRESH</button>
+      </div>
+
+      <div class="queue-card">
+        <div id="queueList" class="queue-list">
+          <p class="muted">Loading commands...</p>
+        </div>
+      </div>
+
+      <div class="section-title">
+        <h3>SERVER MODULES</h3>
+        <span>02 / MODULES</span>
+      </div>
+
+      <div class="modules">
+        <div class="module">
+          <b>♟ PLAYERS</b>
+          <p>Live player list will be connected through the phone agent.</p>
+          <small>COMING NEXT</small>
+        </div>
+        <div class="module">
+          <b>▤ CONSOLE</b>
+          <p>Live server logs and safe command interface.</p>
+          <small>COMING NEXT</small>
+        </div>
+        <div class="module">
+          <b>✚ PLUGINS</b>
+          <p>Plugin information and management.</p>
+          <small>COMING NEXT</small>
+        </div>
+        <div class="module">
+          <b>▦ WORLDS</b>
+          <p>World backup and management.</p>
+          <small>COMING NEXT</small>
+        </div>
       </div>
 
       <div class="notice">
-        <strong>⚠ SERVER AGENT NOT CONNECTED</strong>
-        <p>This dashboard login works, but it cannot start, stop or control the Minecraft server yet.</p>
+        <b>⚠ PHONE AGENT NOT CONNECTED</b>
+        <p>Commands are securely queued in Supabase. They will not execute until the Android server agent is installed and connected.</p>
       </div>
     </section>
   </main>
 
-  <footer>ARJUN SMP © 2026 <span>BUILT FOR THE BLOCKS.</span></footer>
+  <footer>ARJUN SMP © 2026 · BUILT FOR THE BLOCKS</footer>
 
   <script src="app.js"></script>
 </body>
